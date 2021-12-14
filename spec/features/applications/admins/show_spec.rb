@@ -52,13 +52,16 @@ RSpec.describe "admins application show page" do
     derek.pets << @pet_1
     derek.pets << @pet_3
     derek.pets << @pet_4
-    visit "/admin/applications/#{derek.id}"
-    expect(page).to have_button("Reject Pet")
-    expect(page).to have_content(@pet_1.name)
-    expect(page).to have_content(@pet_3.name)
-    expect(page).to have_content(@pet_4.name)
-    expect(page).to_not have_content(@pet_2.name)
 
+    visit "/admin/applications/#{derek.id}"
+
+    within '.applicant-pets' do
+      expect(page).to have_button("Reject Pet")
+      expect(page).to have_content(@pet_1.name)
+      expect(page).to have_content(@pet_3.name)
+      expect(page).to have_content(@pet_4.name)
+      expect(page).to_not have_content(@pet_2.name)
+    end
     find(".reject-#{@pet_1.id}").click
 
 
@@ -68,6 +71,8 @@ RSpec.describe "admins application show page" do
 
     find(".reject-#{@pet_3.id}").click
 
-    expect(page).to have_content("Reject Pets #{@pet_3.name}")
+    expect(page).to have_content("Rejected Pet #{@pet_3.name}")
+    
+    expect(page).to have_css(".approve-#{@pet_4.id}")
   end
 end
