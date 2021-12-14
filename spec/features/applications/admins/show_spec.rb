@@ -26,7 +26,7 @@ RSpec.describe "admins application show page" do
 
     find(".approve-#{@pet_1.id}").click
 
-    save_and_open_page
+    
     expect(page).to have_content("Approved Pets #{@pet_1.name}")
 
     expect(page).to_not have_css(".approve-#{@pet_1.id}")
