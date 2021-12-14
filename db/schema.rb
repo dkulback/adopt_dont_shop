@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_10_033250) do
+ActiveRecord::Schema.define(version: 2021_12_14_001143) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 2021_12_10_033250) do
   create_table "application_pets", force: :cascade do |t|
     t.bigint "application_id"
     t.bigint "pet_id"
+    t.string "status", default: "Open"
     t.index ["application_id"], name: "index_application_pets_on_application_id"
     t.index ["pet_id"], name: "index_application_pets_on_pet_id"
   end
