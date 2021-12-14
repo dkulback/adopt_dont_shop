@@ -26,7 +26,7 @@ RSpec.describe "admins application show page" do
 
     find(".approve-#{@pet_1.id}").click
 
-    save_and_open_page
+
     expect(page).to have_content("Approved Pets #{@pet_1.name}")
 
     expect(page).to_not have_css(".approve-#{@pet_1.id}")
@@ -34,5 +34,45 @@ RSpec.describe "admins application show page" do
     find(".approve-#{@pet_3.id}").click
 
     expect(page).to have_content("Approved Pets #{@pet_3.name}")
+  end
+  it 'has reject options next to each pet' do
+
+    @shelter_1 = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
+    @shelter_2 = Shelter.create(name: 'RGV animal shelter', city: 'Harlingen, TX', foster_program: false, rank: 5)
+    @shelter_3 = Shelter.create(name: 'Fancy pets of Colorado', city: 'Denver, CO', foster_program: true, rank: 10)
+
+    @pet_1 = @shelter_1.pets.create(name: 'Mr. Pirate', breed: 'tuxedo shorthair', age: 5, adoptable: false)
+    @pet_2 = @shelter_1.pets.create(name: 'Clawdia', breed: 'shorthair', age: 3, adoptable: true)
+    @pet_3 = @shelter_3.pets.create(name: 'Lucille Bald', breed: 'sphynx', age: 8, adoptable: true)
+    @pet_4 = @shelter_1.pets.create(name: 'Ann', breed: 'ragdoll', age: 5, adoptable: true)
+
+    derek = Application.create!(name: "Derek", description: "I love dogs", address: {city: "Denver", state: "CO", street: "Kalamath", zip: 80223 }, status: "Pending")
+
+
+    derek.pets << @pet_1
+    derek.pets << @pet_3
+    derek.pets << @pet_4
+
+    visit "/admin/applications/#{derek.id}"
+
+    within '.applicant-pets' do
+      expect(page).to have_button("Reject Pet")
+      expect(page).to have_content(@pet_1.name)
+      expect(page).to have_content(@pet_3.name)
+      expect(page).to have_content(@pet_4.name)
+      expect(page).to_not have_content(@pet_2.name)
+    end
+    find(".reject-#{@pet_1.id}").click
+
+
+    expect(page).to have_content("Rejected Pet #{@pet_1.name}")
+
+    expect(page).to_not have_css(".reject-#{@pet_1.id}")
+
+    find(".reject-#{@pet_3.id}").click
+
+    expect(page).to have_content("Rejected Pet #{@pet_3.name}")
+    
+    expect(page).to have_css(".approve-#{@pet_4.id}")
   end
 end
