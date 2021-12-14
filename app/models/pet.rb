@@ -15,4 +15,7 @@ class Pet < ApplicationRecord
   def self.shelters_unique
     Shelter.select(:name).joins(:pets).distinct.pluck(:name)
   end
+  def self.pets_on_app_approved
+    Pet.joins(:application_pets, :applications).where(application_pets: {status: 'Approved'})
+  end
 end
