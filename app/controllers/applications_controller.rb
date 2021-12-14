@@ -26,15 +26,6 @@ class ApplicationsController < ApplicationController
     end
   end
 
-  def add
-    application = Application.find(params[:id])
-    pet = Pet.find(params[:pet_id])
-    if !application.pets.include?(pet)
-      application.pets << pet
-    end
-    redirect_to "/applications/#{application.id}"
-  end
-
   def update
     application = Application.find(params[:id])
     application.update(description: params[:application][:description],
