@@ -3,7 +3,6 @@ class AdminapplicationsController < ApplicationController
     @application = Application.find(params[:id])
     @approved_pets = @application.pets.pets_on_app_approved
     @rejected_pets = @application.pets.pets_on_app_rejected
-    
   end
 
   def update
