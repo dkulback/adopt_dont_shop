@@ -7,11 +7,4 @@ class ApplicationPetsController < ApplicationController
     end
     redirect_to "/applications/#{application.id}"
   end
-
-  def update
-    application_pet = ApplicationPet.where("pet_id = ?", params[:pet_id]).distinct
-    application_pet.update(status: "Approved")
-    
-    redirect_to "/admin/applications/#{application_pet[0].application_id}"
-  end
 end
