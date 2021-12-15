@@ -33,8 +33,6 @@ RSpec.describe ApplicationPet, type: :model do
 
       approved = jim.application_pets.update(status: "Approved")
 
-
-
       expect(ApplicationPet.approve).to eq(approved)
     end
   end

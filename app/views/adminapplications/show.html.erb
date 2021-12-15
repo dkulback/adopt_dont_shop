@@ -1,9 +1,9 @@
 <h1>Application :<%= @application.name %></h1>
   <% @accepted_pets.each do |pet| %>
-      <p>Approved Pets <%= pet.name %></p>
+      <p class = "a-<%= pet.id %>">>Approved Pets <%= pet.name %></p>
   <% end%>
   <% @rejected_pets.each do |pet| %>
-      <p>Rejected Pet <%= pet.name %></p>
+      <p class = "r-<%= pet.id %>">Rejected Pet <%= pet.name %></p>
   <% end%>
 
 

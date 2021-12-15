@@ -7,23 +7,7 @@ class Pet < ApplicationRecord
 
   def shelter_name
     shelter.name
-  end
-
-  def open_applications?
-    application_pets.any? do |application_pet|
-      application_pet.status == "Open"
-    end
-  end
-  def approved?
-    application_pets.any? do |application_pet|
-      application_pet.status == "Approved"
-    end
-  end
-  def rejected?
-    application_pets.any? do |application_pet|
-      application_pet.status == "Rejected"
-    end
-  end
+  en
 
   def self.adoptable
     where(adoptable: true)

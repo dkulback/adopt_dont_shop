@@ -1,4 +1,5 @@
 class AdminapplicationsController < ApplicationController
+
   def show
     @application = Application.find(params[:id])
     @accepted_pets = @application.pets.pets_on_app_approved
@@ -6,7 +7,6 @@ class AdminapplicationsController < ApplicationController
   end
 
   def update
-    # ApplicationPetServiceUpdater.call(params)
     application_pet = ApplicationPet
     .where("pet_id = ?", params[:pet_id])
     .find_by(application_id: params[:id])

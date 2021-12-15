@@ -92,12 +92,18 @@ RSpec.describe "admins application show page" do
 
     find(".approve-#{@pet_1.id}").click
 
-    expect(page).to have_content("Approved Pets #{@pet_1.name}")
+    within ".a-#{@pet_1.id}" do
+      expect(page).to have_content("Approved Pets #{@pet_1.name}")
+    end
+
     expect(page).to_not have_css(".approve-#{@pet_1.id}")
 
     find(".reject-#{@pet_2.id}").click
 
-    expect(page).to have_content("Rejected Pet #{@pet_2.name}")
+    within ".r-#{@pet_2.id}" do
+      expect(page).to have_content("Rejected Pet #{@pet_2.name}")
+    end
+
     expect(page).to_not have_css(".reject-#{@pet_1.id}")
 
     visit "/admin/applications/#{jim.id}"
