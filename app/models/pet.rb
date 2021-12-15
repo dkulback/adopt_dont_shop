@@ -7,7 +7,7 @@ class Pet < ApplicationRecord
 
   def shelter_name
     shelter.name
-  en
+  end
 
   def self.adoptable
     where(adoptable: true)
