@@ -44,8 +44,8 @@ RSpec.describe Pet, type: :model do
         derek.pets << @pet_4
         ApplicationPet.first.update!(status: 'Approved')
         ApplicationPet.last.update!(status: 'Approved')
-        
-        expect(Pet.pets_on_app_approved).to eq([@pet_1, @pet_4])
+
+        expect(Pet.pets_on_app_approved).to eq([@pet_1, @pet_4]).or eq([@pet_4, @pet_1])
       end
     end
 

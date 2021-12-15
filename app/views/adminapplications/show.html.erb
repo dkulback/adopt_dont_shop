@@ -8,7 +8,7 @@
 
 <div class = 'applicant-pets'>
   <% @application.pets.each do |pet| %>
-  <% if pet.application_pets[0].status == "Open" %>
+  <% if pet.open_applications? %>
       <%= link_to pet.name, "/pets/#{pet.id}" %>
       <%= button_to "Approve Pet", "/admin/applications/#{@application.id}", method: :patch, class: "approve-#{pet.id}", params: {pet_id: pet.id, approved: 'true'} %>
       <%= link_to pet.name, "/pets/#{pet.id}" %>

@@ -77,7 +77,7 @@ RSpec.describe 'application show page', type: :feature do
 
       fill_in 'Search', with: "fluf"
       click_on("Search")
-      
+
       within '.pets-s' do
 
         expect(page).to have_content(pet_1.name)
@@ -94,12 +94,14 @@ RSpec.describe 'application show page', type: :feature do
     visit "/applications/#{derek.id}"
     fill_in 'Search', with: "Lucille"
     click_on("Search")
+
     within '.pets-s' do
 
       click_on ("Adopt this Pet")
 
       expect(current_path).to eq("/applications/#{derek.id}")
     end
+    
     expect(derek.pets).to eq([pet_1])
 
     within '.pets' do

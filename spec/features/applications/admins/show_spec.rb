@@ -72,7 +72,38 @@ RSpec.describe "admins application show page" do
     find(".reject-#{@pet_3.id}").click
 
     expect(page).to have_content("Rejected Pet #{@pet_3.name}")
-    
+
     expect(page).to have_css(".approve-#{@pet_4.id}")
   end
+  it 'approves one application and rejects others' do
+
+    @shelter_1 = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
+
+    @pet_1 = @shelter_1.pets.create(name: 'Mr. Pirate', breed: 'tuxedo shorthair', age: 5, adoptable: false)
+
+    derek = Application.create!(name: "Derek", description: "I love dogs", address: {city: "Denver", state: "CO", street: "Kalamath", zip: 80223 }, status: "Pending")
+
+    jim = Application.create!(name: "Jim", description: "I love dogs", address: {city: "Denver", state: "CO", street: "Kalamath", zip: 80223 }, status: "Pending")
+
+    derek.pets << @pet_1
+    jim.pets << @pet_1
+
+
+    visit "/admin/applications/#{derek.id}"
+
+
+    find(".approve-#{@pet_1.id}").click
+
+
+    expect(page).to have_content("Approved Pets #{@pet_1.name}")
+
+    expect(page).to_not have_css(".approve-#{@pet_1.id}")
+
+    visit "/admin/applications/#{jim.id}"
+
+    expect(page).to have_content("Rejected Pet #{@pet_1.name}")
+
+    expect(page).to_not have_css(".approve-#{@pet_1.id}")
+  end
+
 end

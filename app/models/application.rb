@@ -8,7 +8,7 @@ class Application < ApplicationRecord
   validates :zip, presence: true
   validates :street, presence: true
   validates :name, presence: true
-  validates :description, presence: true
+  validates :description, presence: true, allow_blank: true, on: :create
   has_many :addresses
   has_many :application_pets
   has_many :pets, through: :application_pets
