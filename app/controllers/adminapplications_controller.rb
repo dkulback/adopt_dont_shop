@@ -13,6 +13,7 @@ class AdminapplicationsController < ApplicationController
     rejected_application_pets = ApplicationPet.
     where("pet_id = ?", params[:pet_id])
     .where.not(application_id: params[:id])
+    
     if params[:approved] == "true"
       application_pet.update(status: "Approved")
       rejected_application_pets.update(status: "Rejected")
