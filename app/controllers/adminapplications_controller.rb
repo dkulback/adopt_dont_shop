@@ -1,7 +1,7 @@
 class AdminapplicationsController < ApplicationController
   def show
     @application = Application.find(params[:id])
-    @approved_pets = @application.pets.pets_on_app_approved
+    @accepted_pets = @application.pets.pets_on_app_approved
     @rejected_pets = @application.pets.pets_on_app_rejected
   end
 
@@ -13,7 +13,7 @@ class AdminapplicationsController < ApplicationController
     rejected_application_pets = ApplicationPet.
     where("pet_id = ?", params[:pet_id])
     .where.not(application_id: params[:id])
-    
+
     if params[:approved] == "true"
       application_pet.update(status: "Approved")
       rejected_application_pets.update(status: "Rejected")

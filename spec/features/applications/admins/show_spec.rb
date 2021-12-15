@@ -18,6 +18,7 @@ RSpec.describe "admins application show page" do
     derek.pets << @pet_4
 
     visit "/admin/applications/#{derek.id}"
+
     expect(page).to have_button("Approve Pet")
     expect(page).to have_content(@pet_1.name)
     expect(page).to have_content(@pet_3.name)
@@ -25,7 +26,6 @@ RSpec.describe "admins application show page" do
     expect(page).to_not have_content(@pet_2.name)
 
     find(".approve-#{@pet_1.id}").click
-
 
     expect(page).to have_content("Approved Pets #{@pet_1.name}")
 
@@ -35,6 +35,7 @@ RSpec.describe "admins application show page" do
 
     expect(page).to have_content("Approved Pets #{@pet_3.name}")
   end
+
   it 'has reject options next to each pet' do
 
     @shelter_1 = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
@@ -47,7 +48,6 @@ RSpec.describe "admins application show page" do
     @pet_4 = @shelter_1.pets.create(name: 'Ann', breed: 'ragdoll', age: 5, adoptable: true)
 
     derek = Application.create!(name: "Derek", description: "I love dogs", address: {city: "Denver", state: "CO", street: "Kalamath", zip: 80223 }, status: "Pending")
-
 
     derek.pets << @pet_1
     derek.pets << @pet_3
@@ -64,9 +64,7 @@ RSpec.describe "admins application show page" do
     end
     find(".reject-#{@pet_1.id}").click
 
-
     expect(page).to have_content("Rejected Pet #{@pet_1.name}")
-
     expect(page).to_not have_css(".reject-#{@pet_1.id}")
 
     find(".reject-#{@pet_3.id}").click
@@ -80,30 +78,31 @@ RSpec.describe "admins application show page" do
     @shelter_1 = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
 
     @pet_1 = @shelter_1.pets.create(name: 'Mr. Pirate', breed: 'tuxedo shorthair', age: 5, adoptable: false)
-
+    @pet_2 = @shelter_1.pets.create(name: 'Clawdia', breed: 'shorthair', age: 3, adoptable: true)
     derek = Application.create!(name: "Derek", description: "I love dogs", address: {city: "Denver", state: "CO", street: "Kalamath", zip: 80223 }, status: "Pending")
 
     jim = Application.create!(name: "Jim", description: "I love dogs", address: {city: "Denver", state: "CO", street: "Kalamath", zip: 80223 }, status: "Pending")
 
     derek.pets << @pet_1
+    derek.pets << @pet_2
     jim.pets << @pet_1
-
+    jim.pets << @pet_2
 
     visit "/admin/applications/#{derek.id}"
 
-
     find(".approve-#{@pet_1.id}").click
 
-
     expect(page).to have_content("Approved Pets #{@pet_1.name}")
-
     expect(page).to_not have_css(".approve-#{@pet_1.id}")
+
+    find(".reject-#{@pet_2.id}").click
+
+    expect(page).to have_content("Rejected Pet #{@pet_2.name}")
+    expect(page).to_not have_css(".reject-#{@pet_1.id}")
 
     visit "/admin/applications/#{jim.id}"
 
     expect(page).to have_content("Rejected Pet #{@pet_1.name}")
-
     expect(page).to_not have_css(".approve-#{@pet_1.id}")
   end
-
 end

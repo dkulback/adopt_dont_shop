@@ -14,6 +14,16 @@ class Pet < ApplicationRecord
       application_pet.status == "Open"
     end
   end
+  def approved?
+    application_pets.any? do |application_pet|
+      application_pet.status == "Approved"
+    end
+  end
+  def rejected?
+    application_pets.any? do |application_pet|
+      application_pet.status == "Rejected"
+    end
+  end
 
   def self.adoptable
     where(adoptable: true)
