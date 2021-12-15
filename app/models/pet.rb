@@ -9,6 +9,12 @@ class Pet < ApplicationRecord
     shelter.name
   end
 
+  def open_applications?
+    application_pets.any? do |application_pet|
+      application_pet.status == "Open"
+    end
+  end
+
   def self.adoptable
     where(adoptable: true)
   end
@@ -18,10 +24,10 @@ class Pet < ApplicationRecord
   end
 
   def self.pets_on_app_approved
-    Pet.joins(:application_pets, :applications).where(application_pets: {status: 'Approved'})
+    Pet.joins(:application_pets, :applications).where(application_pets: {status: 'Approved'}).distinct
   end
 
   def self.pets_on_app_rejected
-    Pet.joins(:application_pets, :applications).where(application_pets: {status: 'Rejected'})
+    Pet.joins(:application_pets, :applications).where(application_pets: {status: 'Rejected'}).distinct
   end
 end
