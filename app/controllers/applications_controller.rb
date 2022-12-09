@@ -31,6 +31,7 @@ class ApplicationsController < ApplicationController
     application.update(description: params[:application][:description],
                       status: "Pending")
     redirect_to "/applications/#{application.id}"
+
   end
 
   private
