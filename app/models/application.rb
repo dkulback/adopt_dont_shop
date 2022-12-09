@@ -14,6 +14,34 @@ class Application < ApplicationRecord
   has_many :pets, through: :application_pets
 
   def self.pending
-    where(status: "Pending")
+    where(status: 'Pending')
+  end
+
+  def open_applications
+    pets.where('status = ?', 'Open')
+  end
+
+  def app_pet(pet_id)
+    application_pets.find_by(pet_id: pet_id, application_id: id)
+  end
+
+  def approved_pets
+    pets.pets_on_app_approved
+  end
+
+  def rejected_pets
+    pets.pets_on_app_rejected
+  end
+
+  def approved_applications?
+    application_pets.any? do |app|
+      app.status == 'Approved'
+    end
+  end
+
+  def open_applications?
+    application_pets.any? do |app|
+      app.status == 'Open'
+    end
   end
 end

@@ -1,0 +1,20 @@
+<h1>Application :<%= @application.name %></h1>
+<h3>Application Status: <%= @application.status %></h3>
+
+  <% @application.approved_pets.each do |pet| %>
+      <p class = "a-<%= pet.id %>">Approved Pets <%= pet.name %></p>
+  <% end%>
+  <% @application.rejected_pets.each do |pet| %>
+      <p class = "r-<%= pet.id %>">Rejected Pet <%= pet.name %></p>
+  <% end%>
+
+
+<div class = 'applicant-pets'>
+  <% @pets.each do |pet| %>
+    <%= form_for @application.app_pet(pet.id), method: :patch, html: {class: "pet-#{pet.id}"} do |f| %>
+    <%= f.label :status, pet.name %>
+    <%= f.select :status, options_for_select(['Rejected','Approved'])%>
+    <%= f.submit "Submit" %>
+  <% end %>
+<% end %>
+</div>
