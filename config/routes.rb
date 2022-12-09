@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   get '/', to: 'application#welcome'
 
   get '/shelters', to: 'shelters#index'
@@ -38,7 +37,6 @@ Rails.application.routes.draw do
   get '/veterinary_offices/:veterinary_office_id/veterinarians/new', to: 'veterinarians#new'
   post '/veterinary_offices/:veterinary_office_id/veterinarians', to: 'veterinarians#create'
 
-
   get '/applications', to: 'applications#index'
   get '/applications/new', to: 'applications#new'
   post '/applications', to: 'applications#create'
@@ -46,7 +44,10 @@ Rails.application.routes.draw do
   patch '/applications/:id', to: 'applications#update'
   post '/applications/:id/:pet_id/application_pets', to: 'application_pets#create', as: :application_pets
 
+  resources :application_pets, only: %i[create update]
   get '/admin/shelters', to: 'adminshelters#index'
-  get '/admin/applications/:id', to: 'adminapplications#show'
-  patch '/admin/applications/:id', to: 'adminapplications#update'
+  patch '/admin/applications/:id/:pet_id', to: 'adminapplications#update'
+  namespace :admin do
+    resources :applications, only: %i[show update]
+  end
 end
