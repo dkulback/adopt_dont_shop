@@ -18,10 +18,10 @@ class Pet < ApplicationRecord
   end
 
   def self.pets_on_app_approved
-    Pet.joins(:application_pets, :applications).where(application_pets: {status: 'Approved'}).distinct
+    Pet.joins(:application_pets, :applications).where(application_pets: { status: 'Approved' }).distinct
   end
 
   def self.pets_on_app_rejected
-    Pet.joins(:application_pets, :applications).where(application_pets: {status: 'Rejected'}).distinct
+    Pet.joins(:application_pets, :applications).where(application_pets: { status: 'Rejected' }).distinct
   end
 end

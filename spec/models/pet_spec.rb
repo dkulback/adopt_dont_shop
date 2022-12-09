@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Pet, type: :model do
   describe 'relationships' do
     it { should belong_to(:shelter) }
-    it { should have_many(:applications).through(:application_pets)}
+    it { should have_many(:applications).through(:application_pets) }
   end
 
   describe 'validations' do
@@ -22,7 +22,7 @@ RSpec.describe Pet, type: :model do
   describe 'class methods' do
     describe '#search' do
       it 'returns partial matches' do
-        expect(Pet.search("Claw")).to eq([@pet_2])
+        expect(Pet.search('Claw')).to eq([@pet_2])
       end
     end
     describe '#pets_on_app_approved' do
@@ -36,7 +36,8 @@ RSpec.describe Pet, type: :model do
         @pet_3 = @shelter_3.pets.create(name: 'Lucille Bald', breed: 'sphynx', age: 8, adoptable: true)
         @pet_4 = @shelter_1.pets.create(name: 'Ann', breed: 'ragdoll', age: 5, adoptable: true)
 
-        derek = Application.create!(name: "Derek", description: "I love dogs", address: {city: "Denver", state: "CO", street: "Kalamath", zip: 80223 }, status: "Pending")
+        derek = Application.create!(name: 'Derek', description: 'I love dogs',
+                                    address: { city: 'Denver', state: 'CO', street: 'Kalamath', zip: 80_223 }, status: 'Pending')
 
         derek.pets << @pet_1
         derek.pets << @pet_3
@@ -47,7 +48,7 @@ RSpec.describe Pet, type: :model do
         expect(Pet.pets_on_app_approved).to eq([@pet_1, @pet_4]).or eq([@pet_4, @pet_1])
       end
     end
-    describe '#pets_on_app_approved' do
+    describe '#pets_on_app_rejected' do
       it 'returns pets that are approved on application_pets' do
         @shelter_1 = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
         @shelter_2 = Shelter.create(name: 'RGV animal shelter', city: 'Harlingen, TX', foster_program: false, rank: 5)
@@ -58,7 +59,8 @@ RSpec.describe Pet, type: :model do
         @pet_3 = @shelter_3.pets.create(name: 'Lucille Bald', breed: 'sphynx', age: 8, adoptable: true)
         @pet_4 = @shelter_1.pets.create(name: 'Ann', breed: 'ragdoll', age: 5, adoptable: true)
 
-        derek = Application.create!(name: "Derek", description: "I love dogs", address: {city: "Denver", state: "CO", street: "Kalamath", zip: 80223 }, status: "Pending")
+        derek = Application.create!(name: 'Derek', description: 'I love dogs',
+                                    address: { city: 'Denver', state: 'CO', street: 'Kalamath', zip: 80_223 }, status: 'Pending')
 
         derek.pets << @pet_1
         derek.pets << @pet_3
