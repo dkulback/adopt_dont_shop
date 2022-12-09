@@ -1,5 +1,4 @@
 class ApplicationsController < ApplicationController
-
   def index
     @applications = Application.all
   end
@@ -7,9 +6,7 @@ class ApplicationsController < ApplicationController
   def show
     @applicant = Application.find(params[:id])
     @pets = []
-    if params.include?(:search)
-      @pets = Pet.search(params[:search])
-    end
+    @pets = Pet.search(params[:search]) if params.include?(:search)
   end
 
   def new
@@ -21,7 +18,7 @@ class ApplicationsController < ApplicationController
     if @application.save
       redirect_to "/applications/#{@application.id}"
     else
-      flash.now[:notice] = "Application not created: Required information missing."
+      flash.now[:notice] = 'Application not created: Required information missing.'
       render 'new'
     end
   end
@@ -29,13 +26,13 @@ class ApplicationsController < ApplicationController
   def update
     application = Application.find(params[:id])
     application.update(description: params[:application][:description],
-                      status: "Pending")
+                       status: 'Pending')
     redirect_to "/applications/#{application.id}"
-
   end
 
   private
+
   def application_params
-    params.require(:application).permit(:name, :description, :status, address: [:street, :city, :state, :zip])
+    params.require(:application).permit(:name, :description, :status, address: %i[street city state zip])
   end
 end
